@@ -27,12 +27,16 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint', '@emotion'],
   rules: {
     // React17から不要になった import React from 'react'; に対応
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     // 不適切な依存配列の検知
     'react-hooks/exhaustive-deps': 'warn',
+    // emotion11関連
+    '@emotion/jsx-import': 'error',
+    '@emotion/pkg-renaming': 'error',
+    'react/no-unknown-property': ['error', { ignore: ['css'] }],
   },
 };

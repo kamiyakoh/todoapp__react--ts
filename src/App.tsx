@@ -2,13 +2,16 @@ import type { FC } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import { textPink } from './styles/const';
+import { mq, textPink } from './styles/const';
 import logo from './logo.svg';
 import './App.css';
 
-const App: FC = () => {
+export const App: FC = () => {
   const fs4 = css`
     font-size: 4em;
+    ${mq('sp')} {
+      font-size: 2em;
+    }
   `;
   return (
     <div className="App">
@@ -24,5 +27,3 @@ const App: FC = () => {
     </div>
   );
 };
-
-export default App;

@@ -1,10 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-/* const breakpoints = { sp: 600, tab: 960, ex: 1422 };
- export function mq(bp) {
+interface bp {
+  sp: number;
+  tab: number;
+  ex: number;
+}
+const breakpoints: bp = { sp: 600, tab: 960, ex: 1422 };
+export const mq = (bp: keyof bp): string => {
   return `@media (width < ${breakpoints[bp]}px)`;
-} */
+};
+
 export const pink = css`
   --color: #ff7fbf;
 `;
@@ -61,7 +67,7 @@ export const sec = css`
   min-height: calc(100vh - 80px);
   padding: 32px 0;
 `;
-/* export const form = css`
+export const form = css`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -85,7 +91,7 @@ export const sec = css`
     display: block;
     width: 100%;
   }
-`; */
+`;
 export const btn = css`
   cursor: pointer;
   color: var(--color, #fff);

@@ -32,6 +32,7 @@ module.exports = {
     // React17から不要になった import React from 'react'; に対応
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/consistent-type-imports': 'off',
     // 不適切な依存配列の検知
     'react-hooks/exhaustive-deps': 'warn',
     // emotion11関連
@@ -40,4 +41,5 @@ module.exports = {
     'react/no-unknown-property': ['error', { ignore: ['css'] }],
     '@typescript-eslint/no-unused-vars': ['warn', { varsIgnorePattern: '^jsx$' }],
   },
+  ignorePatterns: ['build/', 'src--jsx/', 'public/', '**/node_modules/', '*.config.js', '.*lintrc.js', '/*.*'],
 };

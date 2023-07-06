@@ -2,13 +2,13 @@
 import { css } from '@emotion/react';
 
 interface bp {
-  sp: number;
   tab: number;
+  pc: number;
   ex: number;
 }
-const breakpoints: bp = { sp: 600, tab: 960, ex: 1422 };
+const breakpoints: bp = { tab: 600, pc: 960, ex: 1422 };
 export const mq = (bp: keyof bp): string => {
-  return `@media (width < ${breakpoints[bp]}px)`;
+  return `@media (width > ${breakpoints[bp]}px)`;
 };
 
 export const pink = css`
@@ -69,13 +69,15 @@ export const sec = css`
 `;
 export const form = css`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  ${mq('sp')} {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 24px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
+  ${mq('tab')} {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0;
   }
 
   div {

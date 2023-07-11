@@ -6,7 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { mq } from '../../styles/const';
 
 interface Props {
-  cssName?: SerializedStyles;
+  cssName?: SerializedStyles | SerializedStyles[];
   children: ReactNode;
 }
 

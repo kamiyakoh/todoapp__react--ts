@@ -5,7 +5,7 @@ import type { SerializedStyles } from '@emotion/react';
 import { jsx, css } from '@emotion/react';
 
 interface Props {
-  cssName?: SerializedStyles;
+  cssName?: SerializedStyles | SerializedStyles[];
   children: ReactNode;
 }
 

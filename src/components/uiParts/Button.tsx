@@ -8,7 +8,7 @@ import { btn } from '../../styles/const';
 interface Props {
   isSubmit: boolean;
   btnId?: string;
-  cssName?: SerializedStyles;
+  cssName?: SerializedStyles | SerializedStyles[];
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
 }

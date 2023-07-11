@@ -1,29 +1,19 @@
-import type { FC } from 'react';
+import { RecoilRoot } from 'recoil';
+import { BrowserRouter } from 'react-router-dom';
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from '@emotion/react';
-import { mq, textPink } from './styles/const';
-import logo from './logo.svg';
-import './App.css';
+import { jsx } from '@emotion/react';
+import { New } from './components/pages/New';
+// import { Test } from './components/pages/Test';
 
-export const App: FC = () => {
-  const fs4 = css`
-    font-size: 4em;
-    ${mq('sp')} {
-      font-size: 2em;
-    }
-  `;
+export const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p css={[fs4, textPink]}>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
+    <div>
+      <RecoilRoot>
+        <BrowserRouter>
+          <New />
+        </BrowserRouter>
+      </RecoilRoot>
     </div>
   );
 };

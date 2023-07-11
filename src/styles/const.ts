@@ -62,6 +62,9 @@ export const fwBold = css`
 export const singleBoard = css`
   width: 100%;
   margin: 2em auto;
+  ${mq('pc')} {
+    width: 100%;
+  }
 `;
 export const sec = css`
   min-height: calc(100vh - 80px);

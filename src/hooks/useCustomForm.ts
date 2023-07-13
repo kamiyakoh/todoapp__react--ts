@@ -6,7 +6,7 @@ import { useActive } from './useActive';
 import { toastSuccess, toastError } from '../utils/customToast';
 
 interface FormValues {
-  title: string;
+  title?: string;
   tasks: Array<{ value: string }>;
 }
 interface UseCustomForm {
@@ -14,7 +14,7 @@ interface UseCustomForm {
   handleSubmit: UseFormHandleSubmit<FormValues>;
   fields: Array<FieldArrayWithId<FormValues, 'tasks', 'id'>>;
   isError: boolean;
-  submitNew: (data: TodoData) => void;
+  submitNew: (data: FormValues) => void;
   isInline: boolean;
   taskCount: number;
   addTask: () => void;
@@ -42,9 +42,9 @@ export const useCustomForm = (): UseCustomForm => {
   const [isError, setIsError] = useState(false);
 
   const submitNew = useCallback(
-    (data: TodoData) => {
+    (data: FormValues) => {
       let isTask = false;
-      const dataTask: TodoTask[] = data.tasks;
+      const dataTask = data.tasks;
       const taskValues = dataTask
         .map((item, index) => {
           let task = null;

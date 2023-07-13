@@ -40,6 +40,7 @@ module.exports = {
     '@emotion/pkg-renaming': 'error',
     'react/no-unknown-property': ['error', { ignore: ['css'] }],
     '@typescript-eslint/no-unused-vars': ['warn', { varsIgnorePattern: '^jsx$' }],
+    '@typescript-eslint/no-misused-promises': 'off',
   },
   ignorePatterns: ['build/', 'src--jsx/', 'public/', '**/node_modules/', '*.config.js', '.*lintrc.js', '/*.*'],
 };

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { css, jsx } from '@emotion/react';
 import { Toaster } from 'react-hot-toast';
 import { useActive } from '../../hooks/useActive';
-
+import { useComp } from '../../hooks/useComp';
 import { useCustomForm } from '../../hooks/useCustomForm';
 import { Container } from '../uiParts/Container';
 import { Board } from '../uiParts/Board';
@@ -26,6 +26,7 @@ import {
 } from '../../styles/const';
 export const New = (): JSX.Element => {
   const { active } = useActive();
+  const { comp } = useComp();
   const {
     register,
     handleSubmit,
@@ -51,6 +52,11 @@ export const New = (): JSX.Element => {
           <Link to="./active">
             <Button isSubmit={false} cssName={[yellow, sizeResp]}>
               進行中 {active.length}
+            </Button>
+          </Link>
+          <Link to="./comp">
+            <Button isSubmit={false} cssName={[pink, sizeResp]}>
+              完了済 {comp.length}
             </Button>
           </Link>
         </Board>

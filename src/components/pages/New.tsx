@@ -24,6 +24,7 @@ import {
   singleBoard,
   form,
 } from '../../styles/const';
+
 export const New = (): JSX.Element => {
   const { active } = useActive();
   const { comp } = useComp();

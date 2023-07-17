@@ -3,7 +3,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
+import { css, jsx } from '@emotion/react';
+import { Header } from './components/projects/Header';
 import { Router } from './routers/Router';
 import { toastBoard } from './styles/const';
 
@@ -12,7 +13,12 @@ export const App = (): JSX.Element => {
     <div>
       <RecoilRoot>
         <BrowserRouter>
-          <main>
+          <Header />
+          <main
+            css={css`
+              padding-top: 80px;
+            `}
+          >
             <Router />
           </main>
           <Toaster toastOptions={{ className: '', style: toastBoard }} />

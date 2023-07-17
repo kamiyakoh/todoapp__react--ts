@@ -6,8 +6,8 @@ export const trashActiveState = atom<TodoData[]>({
   default: [],
   effects: [
     ({ setSelf, onSet }) => {
-      const saveTrashdActive = JSON.parse(localStorage.getItem('trashActive') ?? '[]') as TodoData[];
-      setSelf(saveTrashdActive);
+      const savedTrashActive = JSON.parse(localStorage.getItem('trashActive') ?? '[]') as TodoData[];
+      setSelf(savedTrashActive);
 
       onSet((newValue) => {
         localStorage.setItem('trashActive', JSON.stringify(newValue));

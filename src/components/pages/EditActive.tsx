@@ -1,16 +1,10 @@
-import { Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import { Toaster } from 'react-hot-toast';
-import { useActive } from '../../hooks/useActive';
-import { useComp } from '../../hooks/useComp';
-import { useCustomForm } from '../../hooks/useCustomForm';
-import { Container } from '../uiParts/Container';
-import { Board } from '../uiParts/Board';
-import { Button } from '../uiParts/Button';
 import {
-  mq,
+  bgLightYellow,
   pink,
   blue,
   yellow,
@@ -24,16 +18,21 @@ import {
   singleBoard,
   form,
 } from '../../styles/const';
+import { useEditActive } from '../../hooks/useEditActive';
+import { Container } from '../uiParts/Container';
+import { Board } from '../uiParts/Board';
+import { Button } from '../uiParts/Button';
 
-export const New = (): JSX.Element => {
-  const { active } = useActive();
-  const { comp } = useComp();
+export const EditActive = (): JSX.Element => {
+  const { id } = useParams();
   const {
+    board,
     register,
     handleSubmit,
+    formState,
     fields,
-    isError,
     onSubmit,
+    isError,
     isInline,
     taskCount,
     addTask,
@@ -42,25 +41,20 @@ export const New = (): JSX.Element => {
     endComposition,
     onKeydownTitle,
     onKeydown,
-  } = useCustomForm();
+  } = useEditActive(Number(id));
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (board.id === -1) {
+      navigate('404');
+    }
+  }, [board, navigate]);
+
+  if (board.id === -1) return <div></div>;
   return (
-    <div css={sec}>
+    <div css={[sec, bgLightYellow]}>
       <Container isSingle>
-        <h2 css={fs3}>作成</h2>
-        <p>することを1つ以上は必ず入力してください</p>
-        <Board cssName={[singleBoard, yellow, counter]}>
-          <Link to="./active">
-            <Button isSubmit={false} cssName={[yellow, sizeResp]}>
-              進行中 {active.length}
-            </Button>
-          </Link>
-          <Link to="./comp">
-            <Button isSubmit={false} cssName={[pink, sizeResp]}>
-              完了済 {comp.length}
-            </Button>
-          </Link>
-        </Board>
+        <h2 css={fs3}>編集中のID： {id}</h2>
         <Board cssName={singleBoard}>
           <form css={form} onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -88,6 +82,7 @@ export const New = (): JSX.Element => {
                     <input
                       key={field.id}
                       {...register(`tasks.${index}.value`)}
+                      defaultValue={field.value}
                       onCompositionStart={startComposition}
                       onCompositionEnd={endComposition}
                       onKeyDown={(e) => {
@@ -117,39 +112,23 @@ export const New = (): JSX.Element => {
                 枠を減らす
               </Button>
             </div>
-            <Button
-              isSubmit
-              cssName={[
-                yellow,
-                size3,
-                css`
-                  align-self: flex-end;
-                `,
-              ]}
-            >
-              作成
-            </Button>
+            {formState.isDirty && (
+              <Button
+                isSubmit
+                cssName={[
+                  yellow,
+                  size3,
+                  css`
+                    align-self: flex-end;
+                  `,
+                ]}
+              >
+                決定
+              </Button>
+            )}
           </form>
         </Board>
       </Container>
-      <Toaster />
     </div>
   );
 };
-
-const counter = css`
-  display: flex;
-  justify-content: space-around;
-  ${mq('tab')} {
-    justify-content: space-evenly;
-  }
-`;
-const sizeResp = css`
-  --size: 1.5;
-  ${mq('tab')} {
-    --size: 2;
-  }
-  ${mq('pc')} {
-    --size: 3;
-  }
-`;

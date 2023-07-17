@@ -1,16 +1,27 @@
-import type { TodoTask, TodoData, FormValues, UseCustomForm } from '../types';
-import { useState, useEffect, useCallback } from 'react';
+import type { TodoTask, TodoData, FormValues, UseCustomForm, UseEditActive } from '../types';
 import { useForm, useFieldArray } from 'react-hook-form';
+import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useActive } from './useActive';
-import { toastSuccess, toastError } from '../utils/customToast';
+import { toastError, toastEdit } from '../utils/customToast';
 
-export const useCustomForm = (): UseCustomForm => {
+export const useEditActive = (id: number): UseCustomForm & UseEditActive => {
+  const navigate = useNavigate();
   const { active, setNewActive } = useActive();
+  const board = useMemo(() => {
+    return active.find((b) => b.id === Number(id)) ?? { id: -1, title: '', tasks: [] };
+  }, [active, id]);
+  const taskList = useMemo(() => board.tasks, [board]);
   // React Hook Form用宣言
-  const { register, handleSubmit, control, reset, setFocus, getValues } = useForm<FormValues>({
+  const defaultTasks: TodoTask[] = taskList.map((t: TodoTask) => ({
+    taskNum: t.taskNum,
+    value: t.value,
+    checked: t.checked,
+  }));
+  const { register, handleSubmit, control, reset, setFocus, getValues, formState } = useForm<FormValues>({
     defaultValues: {
-      title: '',
-      tasks: [{ value: '' }],
+      title: board.title,
+      tasks: defaultTasks,
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -19,63 +30,70 @@ export const useCustomForm = (): UseCustomForm => {
   });
   // submitボタンを押した時
   const [isError, setIsError] = useState(false);
-
   const onSubmit = useCallback(
     (data: FormValues) => {
       let isTask = false;
       const dataTask = data.tasks;
       const taskValues = dataTask
         .map((item, index) => {
-          let task = null;
+          let taskValue = { taskNum: -1, value: '', checked: false };
           if (item.value !== '') {
-            task = {
+            let isChecked = false;
+            const thisTask = taskList.find((t) => t.taskNum === index) ?? { taskNum: -1, value: '', checked: false };
+            if (thisTask.value === item.value) isChecked = thisTask.checked;
+            taskValue = {
               taskNum: index,
               value: item.value,
-              checked: false,
+              checked: isChecked,
             };
             isTask = true;
           }
-          return task;
+          return taskValue;
         })
-        .filter(Boolean) as TodoTask[];
+        .filter((t) => t.taskNum !== -1);
       if (isTask) {
         setIsError(false);
         const newBoard: TodoData = {
-          id: active.length ?? 0,
+          id: Number(id),
           title: data.title,
           tasks: taskValues,
         };
-        const newActive: TodoData[] = [...active, newBoard];
+        const newActive = active.map((item) => {
+          if (item === board) {
+            return newBoard;
+          }
+          return item;
+        });
         setNewActive(newActive);
-        setFocus('title');
         reset();
         isTask = false;
-        toastSuccess();
+        toastEdit();
+        navigate('/active', { state: { isEdited: true } });
       } else {
         setIsError(true);
         toastError();
         setFocus(`tasks.0.value`);
       }
     },
-    [active, reset, setFocus, setIsError, setNewActive]
+    [active, board, reset, setFocus, setNewActive, taskList, id, navigate]
   );
 
   // することのinput欄を増減
   const [isInline, setIsInline] = useState(false);
-  const [taskCount, setTaskCount] = useState(0);
+  const [taskCount, setTaskCount] = useState(taskList.length);
   useEffect(() => {
-    if (taskCount > 0) {
+    if (taskCount > 1) {
       setIsInline(true);
     } else if (taskCount < 2) {
       setIsInline(false);
     }
-  }, [taskCount, setIsInline]);
+  }, [taskCount]);
   const addTask = (): void => {
     append({ value: '' });
     setTaskCount(taskCount + 1);
   };
   const reduceTask = (number: number): void => {
-    remove(number);
+    remove(number - 1);
     setTaskCount(taskCount - 1);
   };
   // 漢字変換・予測変換（サジェスト）選択中か否かの判定
@@ -134,11 +152,14 @@ export const useCustomForm = (): UseCustomForm => {
   };
 
   return {
+    board,
     register,
     handleSubmit,
+    getValues,
+    formState,
     fields,
-    isError,
     onSubmit,
+    isError,
     isInline,
     taskCount,
     addTask,

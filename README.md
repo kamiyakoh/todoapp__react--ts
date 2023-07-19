@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# todoapp--react
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**"todoapp--react"** は create-react-app で作成しました  
+黒板デザインの ToDo アプリです  
+作成黒板のすることの入力欄には 1 つ以上必ず入力してください
 
-## Available Scripts
+## 機能
 
-In the project directory, you can run:
+- 作成黒板のタイトル入力中に変換選択していない時にエンターを押すとすることの入力欄にフォーカスが移動します
+- 作成黒板のすることの入力中に変換選択していない時にエンターを押すと入力欄を追加できます
+- 作成黒板のすることの入力中に空欄時にバックスペースを押すと入力欄が減ります
+- 各進行中黒板のすることのチェックボックスを全てチェックすると完了ボタンが出現し押せるようになります
+- 各黒板の削除ボタンを押すとその黒板はゴミ箱に移動します（進行中・完了済みのごみ箱はそれぞれ別々になってます）
+- ゴミ箱の黒板を破棄することでその黒板は完全に消えます
 
-### `yarn start`
+## 作成環境
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- node.js 18.16.0
+- yarn 1.22.5
+- react 18.2.0
+- react-hook-form 7.45.1
+- react-router-dom 6.14.0
+- react-hot-toast 2.4.1
+- emotion/react 11.11.1
+- axios 1.4.0
+- recoil 0.7.7
+- TypeScript 5.1.3
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 使い方
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. `$ npm start` とターミナルにて入力で起動します
+2. ブラウザにて "http://localhost:3000/" を開くと表示されます
+3. ターミナルにて **"Crtl + c"** または **"cmd + c"** で停止します

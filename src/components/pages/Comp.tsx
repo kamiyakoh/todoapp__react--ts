@@ -8,7 +8,7 @@ import { Container } from '../uiParts/Container';
 import { Wrapper } from '../uiParts/Wrapper';
 import { Compboard } from '../projects/CompBoard';
 import { Trash } from '../projects/Trash';
-// import Naviboard from '../projects/Naviboard';
+import { NaviBoard } from '../projects/NaviBoard';
 
 export const Comp = (): JSX.Element => {
   const { comp, setNewComp } = useComp();
@@ -20,6 +20,7 @@ export const Comp = (): JSX.Element => {
       <Container isSingle={false}>
         <h2 css={fs3}>完了済： {comp.length}件</h2>
         <Wrapper>
+          {comp.length < 1 && <NaviBoard isActive={false} isComp />}
           {comp.map((obj) => (
             <Compboard boardId={obj.id} key={obj.id} />
           ))}

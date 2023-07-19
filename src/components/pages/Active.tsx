@@ -8,7 +8,7 @@ import { Container } from '../uiParts/Container';
 import { Wrapper } from '../uiParts/Wrapper';
 import { Activeboard } from '../projects/ActiveBoard';
 import { Trash } from '../projects/Trash';
-// import Naviboard from '../projects/Naviboard';
+import { NaviBoard } from '../projects/NaviBoard';
 
 export const Active = (): JSX.Element => {
   const { active, setNewActive } = useActive();
@@ -20,6 +20,7 @@ export const Active = (): JSX.Element => {
       <Container isSingle={false}>
         <h2 css={fs3}>進行中： {active.length}件</h2>
         <Wrapper>
+          {active.length < 1 && <NaviBoard isActive isComp={false} />}
           {active.map((obj) => (
             <Activeboard key={obj.id} boardId={obj.id} />
           ))}

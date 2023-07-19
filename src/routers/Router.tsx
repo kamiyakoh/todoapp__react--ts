@@ -5,7 +5,7 @@ import { Active } from '../components/pages/Active';
 import { Comp } from '../components/pages/Comp';
 import { EditActive } from '../components/pages/EditActive';
 import { New } from '../components/pages/New';
-import { Page404 } from '../components/projects/Page404';
+import { Page404 } from '../components/pages/Page404';
 
 export const Router = (): JSX.Element => {
   // const { active } = useActive();

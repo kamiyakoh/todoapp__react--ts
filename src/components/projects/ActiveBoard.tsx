@@ -12,7 +12,7 @@ interface Props {
   boardId: number;
 }
 
-export const Activeboard = memo(function ActiveBoard(props: Props): JSX.Element {
+export const Activeboard = memo((props: Props) => {
   const { boardId } = props;
   const { title, taskList, allChecked, onChange, trash, onSubmit } = useActiveBoard(boardId);
 

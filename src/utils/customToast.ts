@@ -1,23 +1,11 @@
 import toast from 'react-hot-toast';
 
-export const toastSuccess = (): void => {
-  toast.success('作成しました');
+export const toastCustom = (text: string, i: string): void => {
+  toast(text, { icon: `${i}` });
 };
-export const toastError = (): void => {
-  toast.error('することを入力してください');
+export const toastSuccess = (text: string): void => {
+  toast.success(text);
 };
-export const toastTrash = (): void => {
-  toast('ゴミ箱へ移動しました', { icon: '🚮' });
-};
-export const toastSubmit = (): void => {
-  toast.success('完了おめでとう');
-};
-export const toastEdit = (): void => {
-  toast.success('編集しました');
-};
-export const toastDel = (text: string): void => {
-  toast(text, { icon: '💥' });
-};
-export const toastTakeOut = (): void => {
-  toast.success('ゴミ箱から戻しました');
+export const toastError = (text: string): void => {
+  toast.error(text);
 };

@@ -2,7 +2,7 @@ import type { TodoData } from '../types';
 import { useCallback, useMemo } from 'react';
 import { useComp } from './useComp';
 import { useTrashComp } from './useTrashComp';
-import { toastTrash } from '../utils/customToast';
+import { toastCustom } from '../utils/customToast';
 
 interface UseCompBoard {
   board: TodoData;
@@ -23,7 +23,7 @@ export const useCompBoard = (boardId: number): UseCompBoard => {
     const newTrash = [...trashComp, newTrashBoard];
     setNewTrashComp(newTrash);
     delComp(boardId);
-    toastTrash();
+    toastCustom('ゴミ箱へ移動しました', '🚮');
   }, [trashComp, board, boardId, setNewTrashComp, delComp]);
 
   return { board, trash };

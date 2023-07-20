@@ -1,6 +1,6 @@
 import type { TodoData } from '../types';
 import { useState, useEffect, useCallback } from 'react';
-import { toastDel } from '../utils/customToast';
+import { toastCustom } from '../utils/customToast';
 
 interface UseTrash {
   trashCount: number;
@@ -21,7 +21,7 @@ export const useTrash = (trashBoards: TodoData[], setTrash: (array: TodoData[]) 
     if (window.confirm('ゴミ箱内を全て破棄しますか？')) {
       setTrash([]);
       setTrashCount(0);
-      toastDel('ゴミ箱内を全て破棄しました');
+      toastCustom('ゴミ箱内を全て破棄しました', '💥');
     }
   }, [setTrash]);
   // trashからまとめて破棄
@@ -62,7 +62,7 @@ export const useTrash = (trashBoards: TodoData[], setTrash: (array: TodoData[]) 
         }));
         setTrash(fixedIdTrash);
         setTrashCount(0);
-        toastDel(`ゴミ箱から${trashCount}件を完全破棄しました`);
+        toastCustom(`ゴミ箱から${trashCount}件を完全破棄しました`, '💥');
       }
     }
   }, [checkedIds, trashCount, trashBoards, setTrash]);

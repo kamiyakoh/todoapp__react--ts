@@ -50,10 +50,10 @@ export const useCustomForm = (): UseCustomForm => {
         setFocus('title');
         reset();
         isTask = false;
-        toastSuccess();
+        toastSuccess('作成しました');
       } else {
         setIsError(true);
-        toastError();
+        toastError('することを入力してください');
         setFocus(`tasks.0.value`);
       }
     },

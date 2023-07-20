@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useActive } from './useActive';
 import { useComp } from './useComp';
 import { useTrashActive } from './useTrashActive';
-import { toastTrash, toastSubmit } from '../utils/customToast';
+import { toastCustom, toastSuccess } from '../utils/customToast';
 
 interface UseActiveBoard {
   title?: string;
@@ -62,7 +62,7 @@ export const useActiveBoard = (boardId: number): UseActiveBoard => {
     }));
     setNewTrashActive(fixedNewTrash);
     delActive(boardId);
-    toastTrash();
+    toastCustom('ゴミ箱へ移動しました', '🚮');
   }, [trashActive, board, boardId, setNewTrashActive, delActive]);
   // submitボタンを押した時
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -85,7 +85,7 @@ export const useActiveBoard = (boardId: number): UseActiveBoard => {
       id: index,
     }));
     setNewActive(fixedIdActive);
-    toastSubmit();
+    toastSuccess('完了おめでとう');
   };
 
   return { title, taskList, allChecked, onChange, trash, onSubmit };

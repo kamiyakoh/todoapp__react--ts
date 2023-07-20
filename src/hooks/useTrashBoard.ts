@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { toastDel, toastTakeOut } from '../utils/customToast';
+import { toastCustom, toastSuccess } from '../utils/customToast';
 import { TodoData } from '../types';
 
 interface UseTrashBoard {
@@ -38,7 +38,7 @@ export const useTrashBoard = (
   const onClickDel = useCallback(() => {
     if (window.confirm('完全に破棄しますか？')) {
       del();
-      toastDel('完全に破棄しました');
+      toastCustom('完全に破棄しました', '💥');
     }
   }, [del]);
   // trashから戻す
@@ -47,7 +47,7 @@ export const useTrashBoard = (
     const newDist = [...distArr, distObj];
     setDist(newDist);
     del();
-    toastTakeOut();
+    toastSuccess('ゴミ箱から戻しました');
   }, [board, distArr, setDist, del]);
 
   return { board, title, onClickDel, takeOut };

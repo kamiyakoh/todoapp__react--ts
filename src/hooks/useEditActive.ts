@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useActive } from './useActive';
-import { toastError, toastEdit } from '../utils/customToast';
+import { toastError, toastSuccess } from '../utils/customToast';
 
 export const useEditActive = (id: number): UseCustomForm & UseEditActive => {
   const navigate = useNavigate();
@@ -67,11 +67,11 @@ export const useEditActive = (id: number): UseCustomForm & UseEditActive => {
         setNewActive(newActive);
         reset();
         isTask = false;
-        toastEdit();
+        toastSuccess('編集しました');
         navigate('/active', { state: { isEdited: true } });
       } else {
         setIsError(true);
-        toastError();
+        toastError('することを入力してください');
         setFocus(`tasks.0.value`);
       }
     },

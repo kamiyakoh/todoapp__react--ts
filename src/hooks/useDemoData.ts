@@ -42,10 +42,9 @@ export const useDemoData = (): UseDemoData => {
 
   const fetch = useCallback(async () => {
     try {
-      const res = await axios.get('https://jsonplaceholder.typicode.com/todos');
-      const resData = res.data as Todos[];
+      const res = await axios.get<Todos[]>('https://jsonplaceholder.typicode.com/todos');
       const remakeRes = (isComp: boolean): TodoData[] => {
-        const filteredRes = resData.filter((item: Todos) => item.completed === isComp);
+        const filteredRes = res.data.filter((item: Todos) => item.completed === isComp);
         const remakedRes = remakeArr(filteredRes, isComp);
         return remakedRes;
       };

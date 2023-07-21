@@ -1,8 +1,9 @@
 import { atom } from 'recoil';
 import type { TodoData } from '../types';
+import type { RecoilKeys } from '../types/recoilKeys';
 
 export const compState = atom<TodoData[]>({
-  key: 'COMP_STATE',
+  key: 'COMP_STATE' as RecoilKeys,
   default: [],
   effects: [
     ({ setSelf, onSet }) => {

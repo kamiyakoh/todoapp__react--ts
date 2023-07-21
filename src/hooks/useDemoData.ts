@@ -49,10 +49,8 @@ export const useDemoData = (): UseDemoData => {
         return remakedRes;
       };
       const remakedActive = remakeRes(false);
-      localStorage.setItem('active', JSON.stringify(remakedActive));
       setNewActive(remakedActive);
       const remakedComp = remakeRes(true);
-      localStorage.setItem('comp', JSON.stringify(remakedComp));
       setNewComp(remakedComp);
     } catch (error) {
       window.alert('インターネットからのデモデータ取得に失敗しました');

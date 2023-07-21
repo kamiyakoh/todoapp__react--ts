@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { FC } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
@@ -9,7 +10,7 @@ import { Container } from '../uiParts/Container';
 import { Board } from '../uiParts/Board';
 import { Button } from '../uiParts/Button';
 
-export const Page404 = (): JSX.Element => {
+export const Page404: FC = () => {
   const { active } = useActive();
   const { comp } = useComp();
 

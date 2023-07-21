@@ -1,5 +1,5 @@
 import type { TodoData } from '../../types';
-import { memo } from 'react';
+import { FC, memo } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
@@ -17,8 +17,7 @@ interface Props {
   setTrash: (newTrash: TodoData[]) => void;
 }
 
-export const TrashBoard = memo((props: Props) => {
-  const { isActive, distArr, trashArr, boardId, setDist, setTrash } = props;
+export const TrashBoard: FC<Props> = memo(({ isActive, distArr, trashArr, boardId, setDist, setTrash }) => {
   const { board, title, onClickDel, takeOut } = useTrashBoard(distArr, trashArr, boardId, setDist, setTrash);
 
   return (

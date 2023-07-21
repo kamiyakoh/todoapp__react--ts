@@ -1,5 +1,5 @@
 import type { TodoData } from '../../types';
-import { memo } from 'react';
+import { FC, memo } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
@@ -20,8 +20,7 @@ interface Props {
   setTrash: (newTrash: TodoData[]) => void;
 }
 
-export const Trash = memo((props: Props) => {
-  const { isActive, distArr, setDist, trashArr, setTrash } = props;
+export const Trash: FC<Props> = memo(({ isActive, distArr, setDist, trashArr, setTrash }) => {
   const { isOpen, isScale, isShow, openModal, closeModal } = useModal();
   const { checkedIds, allDel, handleToggle, dels } = useTrash(trashArr, setTrash);
 

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, FC } from 'react';
 import type { SerializedStyles } from '@emotion/react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
@@ -10,7 +10,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Board = ({ cssName, children }: Props): JSX.Element => {
+export const Board: FC<Props> = ({ cssName, children }) => {
   return <div css={[board, cssName]}>{children}</div>;
 };
 

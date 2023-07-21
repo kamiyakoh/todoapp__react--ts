@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
@@ -23,7 +23,7 @@ import { Container } from '../uiParts/Container';
 import { Board } from '../uiParts/Board';
 import { Button } from '../uiParts/Button';
 
-export const EditActive = (): JSX.Element => {
+export const EditActive: FC = () => {
   const { id } = useParams();
   const {
     board,

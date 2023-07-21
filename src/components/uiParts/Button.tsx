@@ -1,4 +1,4 @@
-import type { MouseEventHandler, ReactNode } from 'react';
+import type { MouseEventHandler, ReactNode, FC } from 'react';
 import type { SerializedStyles } from '@emotion/react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
@@ -13,7 +13,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Button = ({ isSubmit, btnId, cssName, onClick, children }: Props): JSX.Element => {
+export const Button: FC<Props> = ({ isSubmit, btnId, cssName, onClick, children }) => {
   return (
     <button type={isSubmit ? 'submit' : 'button'} id={btnId} css={[btn, cssName]} onClick={onClick}>
       {children}

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
 /** @jsxRuntime classic */
 /** @jsx jsx */
@@ -12,8 +12,7 @@ interface Props {
   boardId: number;
 }
 
-export const Activeboard = memo((props: Props) => {
-  const { boardId } = props;
+export const Activeboard: FC<Props> = memo(({ boardId }) => {
   const { title, taskList, allChecked, onChange, trash, onSubmit } = useActiveBoard(boardId);
 
   return (

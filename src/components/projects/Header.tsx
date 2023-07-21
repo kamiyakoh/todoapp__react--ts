@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
+import { FC } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { mq, yellow, pink } from '../../styles/const';
 import { Container } from '../uiParts/Container';
 
-export const Header = (): JSX.Element => {
+export const Header: FC = () => {
   return (
     <header css={header}>
       <Container isSingle={false}>

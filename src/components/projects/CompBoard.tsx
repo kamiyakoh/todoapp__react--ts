@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
@@ -11,8 +11,7 @@ interface Props {
   boardId: number;
 }
 
-export const Compboard = memo((props: Props) => {
-  const { boardId } = props;
+export const Compboard: FC<Props> = memo(({ boardId }) => {
   const { board, trash } = useCompBoard(boardId);
 
   return (

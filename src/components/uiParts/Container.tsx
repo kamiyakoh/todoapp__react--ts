@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, FC } from 'react';
 import type { SerializedStyles } from '@emotion/react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
@@ -10,7 +10,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Container = ({ cssName, isSingle, children }: Props): JSX.Element => {
+export const Container: FC<Props> = ({ cssName, isSingle, children }) => {
   return <div css={[container, cssName, isSingle ? single : multi]}>{children}</div>;
 };
 

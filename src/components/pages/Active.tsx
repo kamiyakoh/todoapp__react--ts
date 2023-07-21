@@ -1,3 +1,4 @@
+import { FC } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
@@ -10,7 +11,7 @@ import { Activeboard } from '../projects/ActiveBoard';
 import { Trash } from '../projects/Trash';
 import { NaviBoard } from '../projects/NaviBoard';
 
-export const Active = (): JSX.Element => {
+export const Active: FC = () => {
   const { active, setNewActive } = useActive();
   const { trashActive, setNewTrashActive } = useTrashActive();
 

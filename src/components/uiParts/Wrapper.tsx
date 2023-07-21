@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, FC } from 'react';
 import type { SerializedStyles } from '@emotion/react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
@@ -9,7 +9,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Wrapper = ({ cssName, children }: Props): JSX.Element => {
+export const Wrapper: FC<Props> = ({ cssName, children }) => {
   return <div css={[wrapper, cssName]}>{children}</div>;
 };
 

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { FC } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
@@ -13,8 +14,7 @@ interface Props {
   isComp: boolean;
 }
 
-export const NaviBoard = (props: Props): JSX.Element => {
-  const { isActive, isComp } = props;
+export const NaviBoard: FC<Props> = ({ isActive, isComp }) => {
   const { active } = useActive();
   const { comp } = useComp();
 

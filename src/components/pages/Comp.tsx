@@ -1,3 +1,4 @@
+import { FC } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
@@ -10,7 +11,7 @@ import { Compboard } from '../projects/CompBoard';
 import { Trash } from '../projects/Trash';
 import { NaviBoard } from '../projects/NaviBoard';
 
-export const Comp = (): JSX.Element => {
+export const Comp: FC = () => {
   const { comp, setNewComp } = useComp();
   const { trashComp, setNewTrashComp } = useTrashComp();
 

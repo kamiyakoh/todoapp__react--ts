@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { FC } from 'react';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
@@ -25,7 +26,7 @@ import {
   form,
 } from '../../styles/const';
 
-export const New = (): JSX.Element => {
+export const New: FC = () => {
   const { active } = useActive();
   const { comp } = useComp();
   const {

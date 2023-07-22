@@ -12,7 +12,6 @@ export const useTrashComp = (): UseTrashComp => {
   const [trashComp, setTrashComp] = useRecoilState(trashCompState);
   const setNewTrashComp = useCallback(
     (newTrashComp: TodoData[]) => {
-      localStorage.setItem('trashComp', JSON.stringify(newTrashComp));
       setTrashComp(newTrashComp);
     },
     [setTrashComp]

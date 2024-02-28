@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Test Props-cssName Test 1`] = `
+.emotion-0 {
+  cursor: pointer;
+  color: var(--color, #fff);
+  background-color: transparent;
+  border-radius: calc(var(--size, 1) * 2px + 2px);
+  border: solid 2px var(--color, #fff);
+  font-size: calc(var(--size, 1) * 1rem);
+  line-height: 1;
+  padding: calc(var(--size, 1) * 2px + 2px);
+  border-width: calc(var(--size, 1) * 2px);
+}
+
+<button
+  className="emotion-0"
+  id="txt"
+  onClick={[MockFunction]}
+  type="button"
+>
+  Click me
+</button>
+`;
+
+exports[`Button Test Props-cssName Test 2`] = `
+.emotion-0 {
+  cursor: pointer;
+  color: var(--color, #fff);
+  background-color: transparent;
+  border-radius: calc(var(--size, 1) * 2px + 2px);
+  border: solid 2px var(--color, #fff);
+  font-size: calc(var(--size, 1) * 1rem);
+  line-height: 1;
+  padding: calc(var(--size, 1) * 2px + 2px);
+  border-width: calc(var(--size, 1) * 2px);
+}
+
+.emotion-0 cssName {
+  --color: #ff7fbf;
+  --size: 2;
+}
+
+<button
+  className="emotion-0"
+  id="txt"
+  onClick={[MockFunction]}
+  type="button"
+>
+  Click me
+</button>
+`;

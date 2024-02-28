@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Wrapper Test render 1`] = `
+<DocumentFragment>
+  <div
+    class="css-5h8oie-Wrapper"
+  >
+    children
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Wrapper Test render 2`] = `
+<DocumentFragment>
+  <div
+    class="css-1nmx4lh-Wrapper"
+  >
+    children
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Board Test render 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1p9mkd4-Board"
+  >
+    children
+  </div>
+</DocumentFragment>
+`;

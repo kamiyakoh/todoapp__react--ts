@@ -5,6 +5,8 @@ import { useActive } from './useActive';
 import { useComp } from './useComp';
 
 interface UseDemoData {
+  remakeArr: (arr: Todos[], isComp: boolean) => TodoData[];
+  remakeData: (todos: Todos[], isComp: boolean) => TodoData[];
   fetch: () => void;
 }
 interface Todos {
@@ -40,23 +42,25 @@ export const useDemoData = (): UseDemoData => {
     return result;
   };
 
+  const remakeData = useCallback((todos: Todos[], isComp: boolean): TodoData[] => {
+    const filteredRes = todos.filter((item: Todos) => item.completed === isComp);
+    const remakedRes = remakeArr(filteredRes, isComp);
+    return remakedRes;
+  }, []);
+
   const fetch = useCallback(async () => {
     try {
-      const res = await axios.get<Todos[]>('https://jsonplaceholder.typicode.com/todos');
-      const remakeRes = (isComp: boolean): TodoData[] => {
-        const filteredRes = res.data.filter((item: Todos) => item.completed === isComp);
-        const remakedRes = remakeArr(filteredRes, isComp);
-        return remakedRes;
-      };
-      const remakedActive = remakeRes(false);
+      const { data } = await axios.get<Todos[]>('https://jsonplaceholder.typicode.com/todos');
+
+      const remakedActive = remakeData(data, false);
       setNewActive(remakedActive);
-      const remakedComp = remakeRes(true);
+      const remakedComp = remakeData(data, true);
       setNewComp(remakedComp);
     } catch (error) {
       window.alert('インターネットからのデモデータ取得に失敗しました');
     }
-  }, [setNewActive, setNewComp]);
-  return { fetch };
+  }, [setNewActive, setNewComp, remakeData]);
+  return { remakeArr, remakeData, fetch };
 };
 
 const phonetic = (num: number): string => {

@@ -3,16 +3,12 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { useDemoData } from '../useDemoData';
 import * as useActiveModule from '../useActive';
 import * as useCompModule from '../useComp';
-// import { TodoData } from '../../types';
 
 jest.mock('axios');
 jest.mock('../useActive');
 jest.mock('../useComp');
 
 describe('useDemoData', () => {
-  // const setNewActiveMock: TodoData[] = [];
-  // const setNewCompMock: TodoData[] = [];
-
   beforeAll(() => {
     window.alert = jest.fn();
   });

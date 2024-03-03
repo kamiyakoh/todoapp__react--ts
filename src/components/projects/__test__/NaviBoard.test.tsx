@@ -35,28 +35,7 @@ describe('NaviBoard Test', () => {
     });
     jest.spyOn(useCompModule, 'useComp').mockReturnValue({ comp: [], setNewComp: jest.fn(), delComp: jest.fn() });
   });
-  /* jest.mock('../../../hooks/useActive', () => ({
-    useActive: jest.fn(() => ({
-      active: [
-        {
-          id: 0,
-          title: 'Todo List1',
-          tasks: [
-            { taskNum: 0, value: 'Task1', checked: false },
-            { taskNum: 1, value: 'Task2', checked: false },
-          ],
-        },
-        {
-          id: 1,
-          title: '',
-          tasks: [
-            { taskNum: 0, value: 'TaskA', checked: false },
-            { taskNum: 1, value: 'TaskB', checked: false },
-          ],
-        },
-      ],
-    })),
-  })); */
+
   jest.mock('../../../hooks/useComp', () => ({
     useComp: jest.fn(() => ({ comp: [] })),
   }));

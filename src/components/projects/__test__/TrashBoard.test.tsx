@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Toaster } from 'react-hot-toast';
 import { TrashBoard } from '../TrashBoard';
 import { TodoData } from '../../../types';
 
@@ -134,7 +135,12 @@ describe('TrashBoard Test', () => {
       setTrash: jest.fn(),
     };
 
-    const { getByText } = render(<TrashBoard {...props} />);
+    const { getByText } = render(
+      <div>
+        <TrashBoard {...props} />
+        <Toaster />
+      </div>
+    );
 
     await userEvent.click(getByText('破棄'));
     expect(spy.mock.results[0].value.onClickDel).toHaveBeenCalled(); // eslint-disable-line

@@ -1,7 +1,7 @@
-import { act, renderHook } from '@testing-library/react';
+import { act, renderHook, render } from '@testing-library/react';
 import { useActiveBoard } from '../useActiveBoard';
 import { FC, ReactNode } from 'react';
-import { RecoilRoot, MutableSnapshot } from 'recoil';
+import Recoil, { RecoilRoot, MutableSnapshot, snapshot_UNSTABLE, selector, atom } from 'recoil';
 import { activeState } from '../../states/activeState';
 import { compState } from '../../states/compState';
 import { trashActiveState } from '../../states/trashActiveState';
@@ -10,6 +10,11 @@ import { useComp } from '../useComp';
 import { useTrashActive } from '../useTrashActive';
 
 jest.mock('../../utils/customToast');
+const multipliedState = selector({
+  key: 'MultipliedActive',
+  get: ({ get }) => get(activeState),
+});
+snapshot_UNSTABLE().getLoadable(multipliedState).valueOrThrow();
 
 describe('useActiveBoard Hook', () => {
   const boardId = 0;
@@ -51,10 +56,10 @@ describe('useActiveBoard Hook', () => {
       ],
     },
   ];
-  const setNewActiveMock = jest.spyOn(useActive(), 'setNewActive');
-  const setNewCompMock = jest.spyOn(useComp(), 'setNewComp');
-  const setNewTrashActiveMock = jest.spyOn(useTrashActive(), 'setNewTrashActive');
 
+  /* const setNewActiveMock = jest.spyOn(useActive(), 'setNewActive');
+  const setNewCompMock = jest.spyOn(useComp(), 'setNewComp');
+  const setNewTrashActiveMock = jest.spyOn(useTrashActive(), 'setNewTrashActive'); */
   interface Props {
     children: ReactNode;
   }
@@ -69,7 +74,12 @@ describe('useActiveBoard Hook', () => {
   );
 
   beforeEach(() => {
-    jest.mock('../useActive', () => ({
+    /* const setRecoilState = jest.fn();
+    jest.spyOn(Recoil, 'useRecoilState').mockReturnValue([[], setRecoilState]); */
+    jest.mock('recoil', () => ({
+      useRecoilState: jest.fn().mockReturnValue(() => [[], jest.fn()]),
+    }));
+    /* jest.mock('../useActive', () => ({
       useActive: jest.fn().mockReturnValue({
         active: mockActive,
         setNewActive: jest.fn(),
@@ -81,9 +91,9 @@ describe('useActiveBoard Hook', () => {
         comp: mockComp,
         setNewComp: jest.fn(),
       }),
-    }));
+    })); */
     jest.mock('../useTrashActive', () => ({
-      useActive: jest.fn().mockReturnValue({
+      useTrashActive: jest.fn().mockReturnValue({
         trashActive: mockTrashActive,
         setNewTrashActive: jest.fn(),
       }),
@@ -92,6 +102,9 @@ describe('useActiveBoard Hook', () => {
 
   // Test the useActiveBoard hook
   test('should handle checkbox change', () => {
+    renderHook(() => useActive(), {
+      wrapper: TestWrapper,
+    });
     const { result } = renderHook(() => useActiveBoard(boardId), {
       wrapper: TestWrapper,
     });
@@ -103,7 +116,7 @@ describe('useActiveBoard Hook', () => {
       result.current.onChange(mockInput(), 1);
     });
 
-    expect(setNewActiveMock).toHaveBeenCalledWith([
+    expect(useActive().setNewActive).toHaveBeenCalledWith([
       {
         id: 0,
         title: 'Todo List1',
@@ -124,6 +137,12 @@ describe('useActiveBoard Hook', () => {
   });
 
   test('Trash action', () => {
+    renderHook(() => useActive(), {
+      wrapper: TestWrapper,
+    });
+    renderHook(() => useTrashActive(), {
+      wrapper: TestWrapper,
+    });
     const { result } = renderHook(() => useActiveBoard(boardId), {
       wrapper: TestWrapper,
     });
@@ -132,7 +151,7 @@ describe('useActiveBoard Hook', () => {
       result.current.trash();
     });
 
-    expect(setNewTrashActiveMock).toHaveBeenCalledWith([
+    expect(useTrashActive().setNewTrashActive).toHaveBeenCalledWith([
       {
         id: 0,
         title: 'TrashActive List1',
@@ -150,7 +169,7 @@ describe('useActiveBoard Hook', () => {
         ],
       },
     ]);
-    expect(setNewActiveMock).toHaveBeenCalledWith([
+    expect(useActive().setNewActive).toHaveBeenCalledWith([
       {
         id: 0,
         title: '',
@@ -163,16 +182,28 @@ describe('useActiveBoard Hook', () => {
   });
 
   test('Submit action', () => {
+    renderHook(() => useActive(), {
+      wrapper: TestWrapper,
+    });
+    renderHook(() => useComp(), {
+      wrapper: TestWrapper,
+    });
     const { result } = renderHook(() => useActiveBoard(boardId), {
       wrapper: TestWrapper,
     });
-    const mockInput = jest.fn() as unknown as () => React.FormEvent<HTMLFormElement>;
+    const mockInput = jest.fn(() => ({
+      preventDefault: jest.fn(),
+    })) as unknown as () => React.FormEvent<HTMLFormElement>;
+    jest.mock('recoil', () => ({
+      useRecoilState: jest.fn().mockReturnValue(() => [[], jest.fn()]),
+    }));
+    const spy = jest.spyOn(useComp(), 'setNewComp').mockImplementation(() => jest.fn());
 
     act(() => {
       result.current.onSubmit(mockInput());
     });
 
-    expect(setNewCompMock).toHaveBeenCalledWith([
+    expect(spy).toHaveBeenCalledWith([
       {
         id: 0,
         title: 'Comp List1',
@@ -190,7 +221,7 @@ describe('useActiveBoard Hook', () => {
         ],
       },
     ]);
-    expect(setNewActiveMock).toHaveBeenCalledWith([
+    expect(useActive().setNewActive).toHaveBeenCalledWith([
       {
         id: 0,
         title: '',

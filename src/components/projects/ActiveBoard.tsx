@@ -34,8 +34,8 @@ export const Activeboard: FC<Props> = memo(({ boardId }) => {
                 name="tasks"
                 value={task.value}
                 checked={task.checked}
-                onChange={(e) => {
-                  onChange(e, task.taskNum);
+                onChange={() => {
+                  onChange(task.taskNum);
                 }}
               />
               <span css={task.checked ? [isChecked, textPink] : ''}>{task.value}</span>

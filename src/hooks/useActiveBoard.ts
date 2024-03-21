@@ -9,7 +9,7 @@ interface UseActiveBoard {
   title?: string;
   taskList: TodoTask[];
   allChecked: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, taskNum: number) => void;
+  onChange: (taskNum: number) => void;
   trash: () => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
@@ -33,11 +33,11 @@ export const useActiveBoard = (boardId: number): UseActiveBoard => {
     setAllChecked(allItemsChecked);
   }, [taskList]);
   // checkboxを切り替えた時
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>, taskNum: number): void => {
-    const checked: boolean = e.currentTarget.checked;
+  const onChange = (taskNum: number): void => {
+    // const checked: boolean = e.currentTarget.checked;
     const updatedTaskList = taskList.map((item) => {
       if (item.taskNum === taskNum) {
-        return { ...item, checked };
+        return { ...item, checked: !item.checked };
       }
       return item;
     });

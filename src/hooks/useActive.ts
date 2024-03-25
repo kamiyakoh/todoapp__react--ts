@@ -1,10 +1,11 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, SetterOrUpdater } from 'recoil';
 import { useCallback } from 'react';
 import type { TodoData } from '../types';
 import { activeState } from '../states/activeState';
 
 interface UseActive {
   active: TodoData[];
+  setActive: SetterOrUpdater<TodoData[]>;
   setNewActive: (newActive: TodoData[]) => void;
   delActive: (id: number) => void;
 }
@@ -29,5 +30,5 @@ export const useActive = (): UseActive => {
     [active, setNewActive]
   );
 
-  return { active, setNewActive, delActive };
+  return { active, setActive, setNewActive, delActive };
 };

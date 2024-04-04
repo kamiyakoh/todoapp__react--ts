@@ -1,4 +1,4 @@
-import type { TodoTask } from '../types';
+import type { TodoData, TodoTask } from '../types';
 import { useState, useEffect, useCallback } from 'react';
 import { useActive } from './useActive';
 import { useComp } from './useComp';
@@ -12,6 +12,7 @@ interface UseActiveBoard {
   onChange: (taskNum: number) => void;
   trash: () => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  setNewActCompTrashA: (newActive: TodoData[], newComp: TodoData[], newTrashActive: TodoData[]) => void;
 }
 
 export const useActiveBoard = (boardId: number): UseActiveBoard => {
@@ -87,6 +88,11 @@ export const useActiveBoard = (boardId: number): UseActiveBoard => {
     setNewActive(fixedIdActive);
     toastSuccess('完了おめでとう');
   };
+  const setNewActCompTrashA = (newActive: TodoData[], newComp: TodoData[], newTrashActive: TodoData[]): void => {
+    setNewActive(newActive);
+    setNewComp(newComp);
+    setNewTrashActive(newTrashActive);
+  };
 
-  return { title, taskList, allChecked, onChange, trash, onSubmit };
+  return { title, taskList, allChecked, onChange, trash, onSubmit, setNewActCompTrashA };
 };

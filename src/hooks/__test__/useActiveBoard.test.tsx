@@ -1,20 +1,13 @@
-import { act, renderHook, fireEvent, createEvent } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { useActiveBoard } from '../useActiveBoard';
 import { FC, ReactNode } from 'react';
-import { RecoilRoot, MutableSnapshot } from 'recoil';
+import { RecoilRoot, MutableSnapshot, snapshot_UNSTABLE } from 'recoil';
 import { activeState } from '../../states/activeState';
 import { compState } from '../../states/compState';
 import { trashActiveState } from '../../states/trashActiveState';
 import { useActive } from '../useActive';
 import { useComp } from '../useComp';
 import { useTrashActive } from '../useTrashActive';
-
-jest.mock('../../utils/customToast');
-/* const multipliedState = selector({
-  key: 'MultipliedActive',
-  get: ({ get }) => get(activeState),
-});
-snapshot_UNSTABLE().getLoadable(multipliedState).valueOrThrow(); */
 
 describe('useActiveBoard Hook', () => {
   const boardId = 0;
@@ -69,73 +62,43 @@ describe('useActiveBoard Hook', () => {
     <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>
   );
 
-  const useActiveResult = renderHook(() => useActive(), {
+  renderHook(() => useActive(), {
     wrapper: TestWrapper,
-  }).result;
-  const useCompResult = renderHook(() => useComp(), {
+  });
+  renderHook(() => useComp(), {
     wrapper: TestWrapper,
-  }).result;
-  const useTrashActiveResult = renderHook(() => useTrashActive(), {
+  });
+  renderHook(() => useTrashActive(), {
     wrapper: TestWrapper,
-  }).result;
-  const setNewActiveMock = jest.spyOn(useActiveResult.current, 'setNewActive');
-  const setNewCompMock = jest.spyOn(useCompResult.current, 'setNewComp');
-  const setNewTrashActiveMock = jest.spyOn(useTrashActiveResult.current, 'setNewTrashActive');
-
-  beforeEach(() => {
-    /* const setRecoilState = jest.fn();
-    jest.spyOn(Recoil, 'useRecoilState').mockReturnValue([[], setRecoilState]); */
-    /* jest.mock('recoil', () => ({
-      useRecoilState: jest.fn().mockReturnValue(() => [[], jest.fn()]),
-    })); */
-    /* jest.mock('../useActive', () => ({
-      useActive: jest.fn().mockReturnValue({
-        active: mockActive,
-        setNewActive: jest.fn(),
-        delActive: jest.fn(),
-      }),
-    }));
-    jest.mock('../useComp', () => ({
-      useActive: jest.fn().mockReturnValue({
-        comp: mockComp,
-        setNewComp: jest.fn(),
-      }),
-    }));
-    jest.mock('../useTrashActive', () => ({
-      useTrashActive: jest.fn().mockReturnValue({
-        trashActive: mockTrashActive,
-        setNewTrashActive: jest.fn(),
-      }),
-    })); */
   });
 
-  // Test the useActiveBoard hook
+  beforeEach(() => {
+    const { result } = renderHook(() => useActiveBoard(boardId), {
+      wrapper: TestWrapper,
+    });
+
+    act(() => {
+      result.current.setNewActCompTrashA(mockActive, mockComp, mockTrashActive);
+    });
+  });
+
   test('should handle checkbox change', () => {
     const { result } = renderHook(() => useActiveBoard(boardId), {
       wrapper: TestWrapper,
     });
-    /* const mockInput = jest.fn(() => ({
-      target: { checked: true },
-    })) as unknown as () => React.ChangeEvent<HTMLInputElement>;
-
-    fireEvent.change(
-      screen.getByRole('checkbox'),
-      createEvent('input', screen.getByRole('checkbox'), {
-        target: { checked: true },
-      })
-    ); */
 
     act(() => {
-      result.current.onChange(boardId);
+      result.current.onChange(1);
     });
+    const snapshot = snapshot_UNSTABLE();
 
-    expect(useActiveResult.current.setNewActive).toHaveBeenCalledWith([
+    expect(snapshot.getLoadable(activeState).valueOrThrow()).toStrictEqual([
       {
         id: 0,
         title: 'Todo List1',
         tasks: [
           { taskNum: 0, value: 'Task1', checked: false },
-          { taskNum: 1, value: 'Task2', checked: false },
+          { taskNum: 1, value: 'Task2', checked: true },
         ],
       },
       {
@@ -143,7 +106,7 @@ describe('useActiveBoard Hook', () => {
         title: '',
         tasks: [
           { taskNum: 0, value: 'TaskA', checked: false },
-          { taskNum: 1, value: 'TaskB', checked: true },
+          { taskNum: 1, value: 'TaskB', checked: false },
         ],
       },
     ]);
@@ -157,8 +120,9 @@ describe('useActiveBoard Hook', () => {
     act(() => {
       result.current.trash();
     });
+    const snapshot = snapshot_UNSTABLE();
 
-    expect(setNewTrashActiveMock).toHaveBeenCalledWith([
+    expect(snapshot.getLoadable(trashActiveState).valueOrThrow()).toStrictEqual([
       {
         id: 0,
         title: 'TrashActive List1',
@@ -176,7 +140,7 @@ describe('useActiveBoard Hook', () => {
         ],
       },
     ]);
-    expect(setNewActiveMock).toHaveBeenCalledWith([
+    expect(snapshot.getLoadable(activeState).valueOrThrow()).toStrictEqual([
       {
         id: 0,
         title: '',
@@ -199,8 +163,9 @@ describe('useActiveBoard Hook', () => {
     act(() => {
       result.current.onSubmit(mockInput());
     });
+    const snapshot = snapshot_UNSTABLE();
 
-    expect(setNewCompMock).toHaveBeenCalledWith([
+    expect(snapshot.getLoadable(compState).valueOrThrow()).toStrictEqual([
       {
         id: 0,
         title: 'Comp List1',
@@ -218,7 +183,7 @@ describe('useActiveBoard Hook', () => {
         ],
       },
     ]);
-    expect(setNewActiveMock).toHaveBeenCalledWith([
+    expect(snapshot.getLoadable(activeState).valueOrThrow()).toStrictEqual([
       {
         id: 0,
         title: '',

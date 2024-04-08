@@ -7,10 +7,11 @@ import { toastCustom } from '../utils/customToast';
 interface UseCompBoard {
   board: TodoData;
   trash: () => void;
+  setNewCompTrashC: (newComp: TodoData[], newTrashComp: TodoData[]) => void;
 }
 
 export const useCompBoard = (boardId: number): UseCompBoard => {
-  const { comp, delComp } = useComp();
+  const { comp, delComp, setNewComp } = useComp();
   const { trashComp, setNewTrashComp } = useTrashComp();
   const board = useMemo(() => {
     return (
@@ -25,6 +26,10 @@ export const useCompBoard = (boardId: number): UseCompBoard => {
     delComp(boardId);
     toastCustom('ゴミ箱へ移動しました', '🚮');
   }, [trashComp, board, boardId, setNewTrashComp, delComp]);
+  const setNewCompTrashC = (newComp: TodoData[], newTrashComp: TodoData[]): void => {
+    setNewComp(newComp);
+    setNewTrashComp(newTrashComp);
+  };
 
-  return { board, trash };
+  return { board, trash, setNewCompTrashC };
 };

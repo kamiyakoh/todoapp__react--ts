@@ -82,6 +82,16 @@ describe('useActiveBoard Hook', () => {
     });
   });
 
+  afterAll(() => {
+    const { result } = renderHook(() => useActiveBoard(boardId), {
+      wrapper: TestWrapper,
+    });
+
+    act(() => {
+      result.current.setNewActCompTrashA([], [], []);
+    });
+  });
+
   test('should handle checkbox change', () => {
     const { result } = renderHook(() => useActiveBoard(boardId), {
       wrapper: TestWrapper,

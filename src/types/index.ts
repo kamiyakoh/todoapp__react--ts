@@ -37,6 +37,7 @@ export interface UseCustomForm {
   endComposition: () => void;
   onKeydownTitle: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onKeydown: (e: React.KeyboardEvent<HTMLInputElement>, index: number) => void;
+  setNewActive: (newActive: TodoData[]) => void;
 }
 
 export interface UseEditActive {

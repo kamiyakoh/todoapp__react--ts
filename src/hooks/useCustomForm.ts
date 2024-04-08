@@ -147,5 +147,6 @@ export const useCustomForm = (): UseCustomForm => {
     endComposition,
     onKeydownTitle,
     onKeydown,
+    setNewActive,
   };
 };

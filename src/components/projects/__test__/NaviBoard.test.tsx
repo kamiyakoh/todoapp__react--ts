@@ -30,6 +30,7 @@ describe('NaviBoard Test', () => {
           ],
         },
       ],
+      setActive: jest.fn(),
       setNewActive: jest.fn(),
       delActive: jest.fn(),
     });

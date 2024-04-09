@@ -168,5 +168,6 @@ export const useEditActive = (id: number): UseCustomForm & UseEditActive => {
     endComposition,
     onKeydownTitle,
     onKeydown,
+    setNewActive,
   };
 };

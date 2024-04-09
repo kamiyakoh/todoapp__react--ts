@@ -16,7 +16,7 @@ describe('useDemoData', () => {
   beforeEach(() => {
     jest
       .spyOn(useActiveModule, 'useActive')
-      .mockReturnValue({ active: [], setNewActive: jest.fn(), delActive: jest.fn() });
+      .mockReturnValue({ active: [], setActive: jest.fn(), setNewActive: jest.fn(), delActive: jest.fn() });
     jest.spyOn(useCompModule, 'useComp').mockReturnValue({ comp: [], setNewComp: jest.fn(), delComp: jest.fn() });
   });
 

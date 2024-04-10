@@ -1,7 +1,12 @@
 import { renderHook, act } from '@testing-library/react';
 import { useTrashBoard } from '../useTrashBoard';
+import * as actualCustomToastModule from '../../utils/customToast';
+
+jest.mock('../../utils/customToast');
+const customToastModule = actualCustomToastModule as jest.Mocked<typeof actualCustomToastModule>;
 
 describe('useTrashBoard Test', () => {
+  const boardIdMock = 0;
   const distArrMock = [
     {
       id: 0,
@@ -30,7 +35,8 @@ describe('useTrashBoard Test', () => {
       ],
     },
   ];
-  const boardIdMock = 0;
+  const spyToastCustom = jest.spyOn(customToastModule, 'toastCustom');
+  const spyToastSuccess = jest.spyOn(customToastModule, 'toastSuccess');
 
   test('returns the correct initial values', () => {
     const { result } = renderHook(() => useTrashBoard(distArrMock, trashArrMock, boardIdMock, jest.fn(), jest.fn()));
@@ -65,6 +71,7 @@ describe('useTrashBoard Test', () => {
         ],
       },
     ]);
+    expect(spyToastCustom).toBeCalledWith('完全に破棄しました', '💥');
 
     expect(window.confirm).toHaveBeenCalledWith('完全に破棄しますか？');
   });
@@ -79,6 +86,7 @@ describe('useTrashBoard Test', () => {
     });
 
     expect(setTrashMock).not.toHaveBeenCalled();
+    expect(spyToastCustom).not.toBeCalled();
   });
 
   test('takeOut moves the board to distArr and shows success toast', () => {
@@ -114,5 +122,6 @@ describe('useTrashBoard Test', () => {
         ],
       },
     ]);
+    expect(spyToastSuccess).toBeCalledWith('ゴミ箱から戻しました');
   });
 });

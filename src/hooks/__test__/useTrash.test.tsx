@@ -1,6 +1,8 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useTrash } from '../useTrash';
 
+import * as actualCustomToastModule from '../../utils/customToast';
+
 // window.confirmをモック化する
 const mockConfirm = jest.fn(() => true);
 window.confirm = mockConfirm;
@@ -8,6 +10,9 @@ window.confirm = mockConfirm;
 // window.alertをモック化する
 const mockAlert = jest.fn();
 window.alert = mockAlert;
+
+jest.mock('../../utils/customToast');
+const customToastModule = actualCustomToastModule as jest.Mocked<typeof actualCustomToastModule>;
 
 describe('UseTrash Test', () => {
   const setTrashMock = jest.fn();
@@ -37,8 +42,9 @@ describe('UseTrash Test', () => {
       ],
     },
   ];
+  const spyToastCustom = jest.spyOn(customToastModule, 'toastCustom');
 
-  test('AllDel Test', () => {
+  test('AllDel success Test', () => {
     const { result } = renderHook(() => useTrash(trashBoards, setTrashMock));
     mockConfirm.mockReturnValueOnce(true);
 
@@ -46,8 +52,10 @@ describe('UseTrash Test', () => {
       result.current.allDel();
     });
 
+    expect(mockConfirm).toHaveBeenCalledWith('ゴミ箱内を全て破棄しますか？');
     expect(setTrashMock).toHaveBeenCalledWith([]);
     expect(result.current.trashCount).toBe(0);
+    expect(spyToastCustom).toBeCalledWith('ゴミ箱内を全て破棄しました', '💥');
   });
 
   test('AllDel ComfirmCancel Test', () => {
@@ -59,6 +67,7 @@ describe('UseTrash Test', () => {
       result.current.allDel();
     });
 
+    expect(mockConfirm).toHaveBeenCalledWith('ゴミ箱内を全て破棄しますか？');
     expect(mockConfirm).toHaveBeenCalled();
     expect(setTrashMock).not.toHaveBeenCalled();
     expect(result.current.trashCount).toBe(1);
@@ -91,6 +100,7 @@ describe('UseTrash Test', () => {
       });
     });
 
+    expect(mockConfirm).toHaveBeenCalledWith('ゴミ箱から2件を完全に破棄しますか？');
     expect(setTrashMock).toHaveBeenCalledWith([
       {
         id: 0,
@@ -103,6 +113,7 @@ describe('UseTrash Test', () => {
     ]);
     expect(result.current.trashCount).toBe(0);
     expect(mockAlert).not.toHaveBeenCalled();
+    expect(spyToastCustom).toBeCalledWith(`ゴミ箱から2件を完全破棄しました`, '💥');
   });
 
   test('Dels Nochecked Alert Test', () => {
@@ -112,24 +123,42 @@ describe('UseTrash Test', () => {
       result.current.dels();
     });
 
+    expect(mockConfirm).not.toHaveBeenCalled();
     expect(mockAlert).toHaveBeenCalledWith('まとめて破棄する黒板を選択してボタンを押してください');
     expect(mockConfirm).not.toHaveBeenCalled();
     expect(setTrashMock).not.toHaveBeenCalled();
   });
 
-  test('Dels ComfirmCancel Test', () => {
+  test('Dels ComfirmCancel Test', async () => {
     const { result } = renderHook(() => useTrash(trashBoards, setTrashMock));
 
     mockConfirm.mockReturnValueOnce(false);
 
-    act(() => {
-      result.current.handleToggle(0);
-      result.current.dels();
+    await act(async () => {
+      await waitFor(() => {
+        result.current.handleToggle(0);
+      });
     });
 
-    expect(mockConfirm).not.toHaveBeenCalled();
-    expect(setTrashMock).not.toHaveBeenCalled();
     expect(result.current.trashCount).toBe(1);
-    expect(mockAlert).toHaveBeenCalled();
+
+    await act(async () => {
+      await waitFor(() => {
+        result.current.handleToggle(2);
+      });
+    });
+
+    expect(result.current.trashCount).toBe(2);
+
+    await act(async () => {
+      await waitFor(() => {
+        result.current.dels();
+      });
+    });
+
+    expect(mockConfirm).toHaveBeenCalledWith('ゴミ箱から2件を完全に破棄しますか？');
+    expect(setTrashMock).not.toHaveBeenCalled();
+    expect(result.current.trashCount).toBe(2);
+    expect(mockAlert).not.toHaveBeenCalled();
   });
 });

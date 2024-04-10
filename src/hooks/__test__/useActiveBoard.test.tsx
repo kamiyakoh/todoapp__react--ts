@@ -8,6 +8,10 @@ import { trashActiveState } from '../../states/trashActiveState';
 import { useActive } from '../useActive';
 import { useComp } from '../useComp';
 import { useTrashActive } from '../useTrashActive';
+import * as actualCustomToastModule from '../../utils/customToast';
+
+jest.mock('../../utils/customToast');
+const customToastModule = actualCustomToastModule as jest.Mocked<typeof actualCustomToastModule>;
 
 describe('useActiveBoard Hook', () => {
   const boardId = 0;
@@ -53,6 +57,9 @@ describe('useActiveBoard Hook', () => {
     children: ReactNode;
   }
 
+  const spyToastCustom = jest.spyOn(customToastModule, 'toastCustom');
+  const spyToastSuccess = jest.spyOn(customToastModule, 'toastSuccess');
+
   const initializeState = ({ set }: MutableSnapshot): void => {
     set(activeState, []);
     set(compState, []);
@@ -92,7 +99,7 @@ describe('useActiveBoard Hook', () => {
     });
   });
 
-  test('should handle checkbox change', () => {
+  test('handle checkbox change', () => {
     const { result } = renderHook(() => useActiveBoard(boardId), {
       wrapper: TestWrapper,
     });
@@ -160,6 +167,7 @@ describe('useActiveBoard Hook', () => {
         ],
       },
     ]);
+    expect(spyToastCustom).toBeCalledWith('ゴミ箱へ移動しました', '🚮');
   });
 
   test('Submit action', () => {
@@ -203,5 +211,6 @@ describe('useActiveBoard Hook', () => {
         ],
       },
     ]);
+    expect(spyToastSuccess).toBeCalledWith('完了おめでとう');
   });
 });

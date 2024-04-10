@@ -3,6 +3,10 @@ import { renderHook, act } from '@testing-library/react';
 import { RecoilRoot, MutableSnapshot, snapshot_UNSTABLE } from 'recoil';
 import { activeState } from '../../states/activeState';
 import { useEditActive } from '../useEditActive';
+import * as actualCustomToastModule from '../../utils/customToast';
+
+jest.mock('../../utils/customToast');
+const customToastModule = actualCustomToastModule as jest.Mocked<typeof actualCustomToastModule>;
 
 interface Props {
   children: ReactNode;
@@ -37,6 +41,8 @@ describe('UseEditActive Test', () => {
       ],
     },
   ];
+  const spyToastSuccess = jest.spyOn(customToastModule, 'toastSuccess');
+  const spyToastError = jest.spyOn(customToastModule, 'toastError');
 
   const initializeState = ({ set }: MutableSnapshot): void => {
     set(activeState, mockActive);
@@ -94,6 +100,7 @@ describe('UseEditActive Test', () => {
     expect(result.current.board.tasks[0].checked).toBe(false);
     expect(result.current.board.tasks[1].value).toBe('Task1');
     expect(result.current.board.tasks[1].checked).toBe(true);
+    expect(spyToastSuccess).toBeCalledWith('編集しました');
   });
 
   test('onSubmit error test', () => {
@@ -110,5 +117,6 @@ describe('UseEditActive Test', () => {
     const snapshot = snapshot_UNSTABLE();
 
     expect(snapshot.getLoadable(activeState).valueOrThrow()).toStrictEqual(mockActive);
+    expect(spyToastError).toBeCalledWith('することを入力してください');
   });
 });

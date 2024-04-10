@@ -5,12 +5,19 @@ import { useCustomForm } from '../useCustomForm';
 import { useActive } from '../useActive';
 import { RecoilRoot, MutableSnapshot, snapshot_UNSTABLE } from 'recoil';
 import { activeState } from '../../states/activeState';
-// モックする関数やカスタムフックを使ってテストを行う
+import * as actualCustomToastModule from '../../utils/customToast';
+
+jest.mock('../../utils/customToast');
+const customToastModule = actualCustomToastModule as jest.Mocked<typeof actualCustomToastModule>;
+
 interface Props {
   children: ReactNode;
 }
 
 describe('useCustomForm', () => {
+  const spyToastSuccess = jest.spyOn(customToastModule, 'toastSuccess');
+  const spyToastError = jest.spyOn(customToastModule, 'toastError');
+
   const initializeState = ({ set }: MutableSnapshot): void => {
     set(activeState, []);
   };
@@ -41,7 +48,6 @@ describe('useCustomForm', () => {
     });
   });
 
-  // const setFocusSpy = spyOn(react-hook)
   test('should handle form submission with valid data', () => {
     // Arrange
     const { result } = renderHook(() => useCustomForm(), {
@@ -68,6 +74,7 @@ describe('useCustomForm', () => {
         ],
       },
     ]);
+    expect(spyToastSuccess).toBeCalledWith('作成しました');
   });
 
   test('should handle form submission with empty task and show error', () => {
@@ -87,5 +94,6 @@ describe('useCustomForm', () => {
 
     // Assert
     expect(snapshot.getLoadable(activeState).valueOrThrow()).toStrictEqual([]);
+    expect(spyToastError).toBeCalledWith('することを入力してください');
   });
 });

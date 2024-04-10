@@ -6,6 +6,10 @@ import { compState } from '../../states/compState';
 import { trashCompState } from '../../states/trashCompState';
 import { useComp } from '../useComp';
 import { useTrashComp } from '../useTrashComp';
+import * as actualCustomToastModule from '../../utils/customToast';
+
+jest.mock('../../utils/customToast');
+const customToastModule = actualCustomToastModule as jest.Mocked<typeof actualCustomToastModule>;
 
 describe('useActiveBoard Hook', () => {
   const boardId = 0;
@@ -37,6 +41,7 @@ describe('useActiveBoard Hook', () => {
       ],
     },
   ];
+  const spyToastCustom = jest.spyOn(customToastModule, 'toastCustom');
   interface Props {
     children: ReactNode;
   }
@@ -114,5 +119,6 @@ describe('useActiveBoard Hook', () => {
         ],
       },
     ]);
+    expect(spyToastCustom).toBeCalledWith('ゴミ箱へ移動しました', '🚮');
   });
 });

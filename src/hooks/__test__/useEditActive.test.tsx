@@ -1,10 +1,9 @@
 import { FC, ReactNode } from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { RecoilRoot, MutableSnapshot } from 'recoil';
+import { RecoilRoot, MutableSnapshot, snapshot_UNSTABLE } from 'recoil';
 import { activeState } from '../../states/activeState';
 import { useEditActive } from '../useEditActive';
 
-// Mocking react-router-dom's useNavigate hook
 interface Props {
   children: ReactNode;
 }
@@ -108,10 +107,8 @@ describe('UseEditActive Test', () => {
         tasks: [{ value: '' }],
       });
     });
+    const snapshot = snapshot_UNSTABLE();
 
-    expect(result.current.board.title).toBe('Active0');
-    expect(result.current.board.tasks.length).toBe(3);
-    expect(result.current.board.tasks[0].value).toBe('Task0');
-    expect(result.current.board.tasks[0].checked).toBe(true);
+    expect(snapshot.getLoadable(activeState).valueOrThrow()).toStrictEqual(mockActive);
   });
 });

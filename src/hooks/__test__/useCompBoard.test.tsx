@@ -9,24 +9,6 @@ import { useTrashComp } from '../useTrashComp';
 
 describe('useActiveBoard Hook', () => {
   const boardId = 0;
-  /* const mockActive = [
-    {
-      id: 0,
-      title: 'Todo List1',
-      tasks: [
-        { taskNum: 0, value: 'Task1', checked: false },
-        { taskNum: 1, value: 'Task2', checked: false },
-      ],
-    },
-    {
-      id: 1,
-      title: '',
-      tasks: [
-        { taskNum: 0, value: 'TaskA', checked: false },
-        { taskNum: 1, value: 'TaskB', checked: false },
-      ],
-    },
-  ]; */
   const mockComp = [
     {
       id: 0,

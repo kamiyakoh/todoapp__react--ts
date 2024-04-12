@@ -7,7 +7,7 @@ import { useActive } from '../../hooks/useActive';
 import { useTrashActive } from '../../hooks/useTrashActive';
 import { Container } from '../uiParts/Container';
 import { Wrapper } from '../uiParts/Wrapper';
-import { Activeboard } from '../projects/ActiveBoard';
+import { ActiveBoard } from '../projects/ActiveBoard';
 import { Trash } from '../projects/Trash';
 import { NaviBoard } from '../projects/NaviBoard';
 
@@ -23,7 +23,7 @@ export const Active: FC = () => {
         <Wrapper>
           {active.length < 1 && <NaviBoard isActive isComp={false} />}
           {active.map((obj) => (
-            <Activeboard key={obj.id} boardId={obj.id} />
+            <ActiveBoard key={obj.id} boardId={obj.id} />
           ))}
         </Wrapper>
       </Container>

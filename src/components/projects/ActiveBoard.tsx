@@ -12,7 +12,7 @@ interface Props {
   boardId: number;
 }
 
-export const Activeboard: FC<Props> = memo(({ boardId }) => {
+export const ActiveBoard: FC<Props> = memo(({ boardId }) => {
   const { title, taskList, allChecked, onChange, trash, onSubmit } = useActiveBoard(boardId);
 
   return (

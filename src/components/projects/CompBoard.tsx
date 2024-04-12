@@ -11,7 +11,7 @@ interface Props {
   boardId: number;
 }
 
-export const Compboard: FC<Props> = memo(({ boardId }) => {
+export const CompBoard: FC<Props> = memo(({ boardId }) => {
   const { board, trash } = useCompBoard(boardId);
 
   return (

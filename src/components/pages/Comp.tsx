@@ -7,7 +7,7 @@ import { useComp } from '../../hooks/useComp';
 import { useTrashComp } from '../../hooks/useTrashComp';
 import { Container } from '../uiParts/Container';
 import { Wrapper } from '../uiParts/Wrapper';
-import { Compboard } from '../projects/CompBoard';
+import { CompBoard } from '../projects/CompBoard';
 import { Trash } from '../projects/Trash';
 import { NaviBoard } from '../projects/NaviBoard';
 
@@ -23,7 +23,7 @@ export const Comp: FC = () => {
         <Wrapper>
           {comp.length < 1 && <NaviBoard isActive={false} isComp />}
           {comp.map((obj) => (
-            <Compboard boardId={obj.id} key={obj.id} />
+            <CompBoard boardId={obj.id} key={obj.id} />
           ))}
         </Wrapper>
       </Container>
